@@ -41,12 +41,12 @@ public class Person {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this.is(o)) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person that = (Person) o;
-        return name.equals(that.name) &&
-                birthday.equals(that.birthday) &&
-                Objects.equals(emailAddress, that.emailAddress);
+        return name == that.name &&
+                birthday == that.birthday &&
+                emailAddress == that.emailAddress
     }
 
     @Override
