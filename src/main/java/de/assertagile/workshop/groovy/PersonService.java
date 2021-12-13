@@ -9,7 +9,7 @@ import static java.util.stream.Collectors.toSet;
 
 public class PersonService {
 
-    private Set<Person> persons = new HashSet<>();
+    private final Set<Person> persons = new HashSet<>();
 
     public Collection<Person> getAllPersons() {
         return persons;
