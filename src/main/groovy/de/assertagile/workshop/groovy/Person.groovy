@@ -7,7 +7,7 @@ class Person {
 
     private final String name
     private final LocalDate birthday
-    private String emailAddress
+    private final String emailAddress
 
     Person(String name, LocalDate birthday, String emailAddress) {
         this(name, birthday)
@@ -29,10 +29,6 @@ class Person {
 
     String getEmailAddress() {
         return emailAddress
-    }
-
-    void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress
     }
 
     boolean isOfAge() {
