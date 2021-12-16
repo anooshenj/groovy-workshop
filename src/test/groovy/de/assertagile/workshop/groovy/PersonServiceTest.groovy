@@ -1,16 +1,9 @@
 package de.assertagile.workshop.groovy
 
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
 import spock.lang.Specification
 
 import java.time.LocalDate
-import java.util.Optional
-import java.util.Set
-import java.util.function.Predicate
 import java.util.regex.Pattern
-
-import static org.junit.jupiter.api.Assertions.*
 
 class PersonServiceTest extends Specification {
 
@@ -19,9 +12,7 @@ class PersonServiceTest extends Specification {
     private static final Person BEAR = new Person("Bear Lee Grownup", LocalDate.now().minusYears(18), "bear.lee.grownup@assertagile.de")
     private static final Person ANDREA = new Person("Andrea Aged", LocalDate.now().minusYears(59).plusDays(100))
 
-    @Test
-    @DisplayName("getAllPersons returns empty list initially")
-    void getAllPersons1() {
+    def "getAllPersons returns empty list initially"() {
         given:
         PersonService service = new PersonService()
 
@@ -29,9 +20,8 @@ class PersonServiceTest extends Specification {
         Set.of() == service.getAllPersons()
     }
 
-    @Test
-    @DisplayName("getAllPersons returns all persons added")
-    void getAllPersons2() {
+
+    def "getAllPersons returns all persons added"() {
         given:
         PersonService service = new PersonService()
         service.addPersons(TODD, TINA, BEAR, ANDREA)
@@ -40,9 +30,8 @@ class PersonServiceTest extends Specification {
         Set.of(TODD, TINA, BEAR, ANDREA) == service.getAllPersons()
     }
 
-    @Test
-    @DisplayName("findPerson returns the named person")
-    void findPerson1() {
+
+    def "findPerson returns the named person"() {
         given:
         PersonService service = new PersonService()
         service.addPersons(TODD, TINA, BEAR, ANDREA)
@@ -51,32 +40,29 @@ class PersonServiceTest extends Specification {
         Optional.of(TODD) == service.findPerson(TODD.getName())
     }
 
-    @Test
-    @DisplayName("findPerson an empty optional if name is unknown")
-    void findPerson2() {
+
+    def "findPerson an empty optional if name is unknown"() {
         given:
         PersonService service = new PersonService()
         service.addPersons(TODD, TINA, BEAR, ANDREA)
 
         expect:
-        assertTrue(service.findPerson("Unknown").isEmpty())
+        service.findPerson("Unknown").isEmpty()
     }
 
-    @Test
-    @DisplayName("findPersons returns all persons matching the given pattern")
-    void findPersonsPattern1() {
+
+    def "findPersons returns all persons matching the given pattern"() {
         given:
         PersonService service = new PersonService()
         service.addPersons(TODD, TINA, BEAR, ANDREA)
 
         expect:
         // See regex here: https://regex101.com/r/9Y9XNd/1
-        Set.of(TINA, TODD)== service.findPersons(Pattern.compile('^T.*$'))
+        Set.of(TINA, TODD) == service.findPersons(Pattern.compile('^T.*$'))
     }
 
-    @Test
-    @DisplayName("findPersons returns all persons with the given birthday")
-    void findPersonsLocalDate1() {
+
+    def "findPersons returns all persons with the given birthday"() {
         given:
         PersonService service = new PersonService()
         service.addPersons(TODD, TINA, BEAR, ANDREA)
@@ -85,7 +71,7 @@ class PersonServiceTest extends Specification {
         Set.of(ANDREA) == service.findPersons(ANDREA.getBirthday())
     }
 
-    @Test
+
     def "findPersons by object throws IllegalArgumentException"() {
         given:
         PersonService service = new PersonService()
@@ -100,9 +86,7 @@ class PersonServiceTest extends Specification {
     }
 
 
-    @Test
-    @DisplayName("findPersons returns fulfilling the given predicate")
-    void findPersonsByPredicate() {
+    def "findPersons returns fulfilling the given predicate"() {
         given:
         PersonService service = new PersonService()
         service.addPersons(TODD, TINA, BEAR, ANDREA)
@@ -111,9 +95,8 @@ class PersonServiceTest extends Specification {
         Set.of(BEAR) == service.findPersons(person -> person.getName().length() > 11)
     }
 
-    @Test
-    @DisplayName("addPerson does not add duplicates")
-    void addPerson() {
+
+    def "addPerson does not add duplicates"() {
         given:
         PersonService service = new PersonService()
         service.addPersons(TODD)
