@@ -38,7 +38,11 @@ class PersonService {
     }
 
     Collection<Person> findPersons(Object criteria) {
-        throw new IllegalArgumentException("This is not implemented, yet!")
+        try {
+            return persons.stream().filter(criteria).collect(toSet())
+        } catch (e) {
+            throw new IllegalArgumentException(e)
+        }
     }
 
     void addPersons(Person... persons) {
